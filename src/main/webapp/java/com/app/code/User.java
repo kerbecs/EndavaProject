@@ -3,13 +3,17 @@ package com.app.code;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_detail")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
     private int user_id;
+
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name = " customer_id")
+    private Customer customer;
 
     @Column(name="username")
     private String username;
@@ -47,7 +51,13 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
     @Override
     public String toString() {
         return "User{" +
@@ -56,4 +66,5 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

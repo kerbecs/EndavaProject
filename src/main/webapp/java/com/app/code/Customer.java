@@ -1,19 +1,16 @@
 package com.app.code;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "client")
-public class Client {
+@Table(name = "customer")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="customer_id")
     private int id;
-
-    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @Column(name="first_name")
     private String firstName;
@@ -36,10 +33,12 @@ public class Client {
     @Column(name="orders")
     private int orders;
 
-    public Client() { }
+    @OneToMany(mappedBy = "customer")
+    List<Order> Order;
 
-    public Client(User user, String firstName, String lastName, String email, String location, String address) {
-        this.user = user;
+    public Customer() { }
+
+    public Customer(String firstName, String lastName, String email, String location, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -55,13 +54,6 @@ public class Client {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -121,9 +113,8 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "Customer{" +
                 "id=" + id +
-                ", user=" + user +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -132,5 +123,13 @@ public class Client {
                 ", job='" + job + '\'' +
                 ", orders=" + orders +
                 '}';
+    }
+
+    public List<com.app.code.Order> getOrder() {
+        return Order;
+    }
+
+    public void setOrder(List<com.app.code.Order> order) {
+        Order = order;
     }
 }
