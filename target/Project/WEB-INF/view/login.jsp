@@ -8,6 +8,7 @@
 <!DOCTYPE HTML>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
 
@@ -44,21 +45,21 @@
     <article>
         <div class="logZone">
             <span><font>LogIn</font></span>
-            <form>
+            <form:form action="loginCheck" modelAttribute="userTest">
                 <br><br><br><br><br>
                 <font class="loginFont">Username</font><br>
-                <input type="text" class="fname user" placeholder="Enter your username"/>
+                <form:input type="text" class="fname user" placeholder="Enter your username" path="username"/>
                 <br>
-                <font class="required">&nbsp &nbsp &nbsp &nbsp &nbsp This is required</font>
+                <font class="required">&nbsp &nbsp &nbsp &nbsp &nbsp <form:errors path="username"/></font>
                 <br>
                 <font class="loginFont">Password</font><br>
-                <input type="password" class="lname pass" placeholder="Enter your password"/>
+                <form:input type="password" class="lname pass" placeholder="Enter your password" path="password"/>
                 <br>
-                <font class="required"> &nbsp &nbsp &nbsp &nbsp &nbsp This is required</font>
+                <font class="required"> &nbsp &nbsp &nbsp &nbsp &nbsp <form:errors path="password" /></font>
 
 
                 <br>
-                <input type="button" class="create_acc login" value="Login"/>
+                <input type="submit" class="create_acc login" value="Login"/>
                 <br>
                 <br>
                 <input type="button" class="create_acc login forgot" value="Reset Password "/>
@@ -67,7 +68,7 @@
                     Don't have an account? <a href="register">Register now</a>
                 </div>
 
-            </form>
+            </form:form>
         </div>
     </article>
     <div class="main">

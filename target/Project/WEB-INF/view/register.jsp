@@ -8,6 +8,7 @@
 <!DOCTYPE HTML>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 
 <head>
@@ -41,36 +42,43 @@
 
 <section>
     <article>
-        <div class="regZone">
-            <span><font>Register</font></span>
-            <form>
-                <input type="text" class="fname" placeholder="First Name"/>
-                <input type="text" class="lname" placeholder="Last Name"/>
-                <font class="required requiredfn">This is required</font>
-                <font class="required requiredln">This is required</font>
+        <div class="regZone" style="overflow: auto">
+            <span class="registerText">Register</span>
+            <form:form action="registeredCheck" modelAttribute="registerTest">
+                <form:input class="fname" placeholder="First Name" path="firstName"/>
+                <form:input type="text" class="lname" placeholder="Last Name" path="lastName"/>
+                <br>
+                <form:errors path="firstName" cssClass="error"/>
+                <form:errors path="lastName" cssClass="error" cssStyle="left:23%;"/>
+                <br>
+                <form:input type="email" placeholder="E-mail Address" class="email" path="email"/>
+                <br>
+                <form:errors path="email" cssClass="error"/>
 
-                <input type="email" placeholder="E-mail Address" class="email"/>
-                <font class="required requiredfn ">This is required</font>
+                <br>
+                <form:input type="text" placeholder="Username" class="username" path="username"/>
+                <br>
+                <form:errors path="username" cssClass="error"/>
+                <br>
+                <form:input type="password" placeholder="Password" class="password" path="password1"/>
+                <br>
+                <form:errors path="password1" cssClass="error"/>
+                <br>
+                <form:input type="password" placeholder="Repeat your password" class="password" path="password2"/>
+                <br>
+                <form:errors path="password2" cssClass="error"/>
+                <br>
 
+                <form:input type="text" class="lname place" placeholder="Address" path="address"/>
+                        <form:input type="text" class="fname place" placeholder="City/Town/Village" path="location"/>
+                    <form:errors path="address" cssClass="error" cssStyle="bottom:17px"/>
+                    <form:errors path="location" cssClass="error" cssStyle="left: 27%;bottom:17px"/>
                 <br>
-                <input type="text" placeholder="Username" class="username"/>
-                <font class="required requiredfn ">This is required</font>
-                <br>
-                <input type="text" placeholder="Password" class="password"/>
-                <font class="required requiredfn ">This is required</font>
-                <br>
-                <input type="text" placeholder="Repeat your password" class="password"/>
-                <font class="required requiredfn ">This is required</font>
-                <br>
+                <br> <br>
+                <input type="checkbox" class="term_button" style="width: 15px; height: 15px; margin-left: 0px;"/><div class="agree_term">I agree to the terms, conditions and privacy policy</div>
+                <input type="submit" class="create_acc" value="Create Account"/>
 
-                <input type="text" class="fname place" placeholder="City/Town/Village"/>
-                <input type="text" class="lname place" placeholder="Address"/>
-                <br>
-                <input type="checkbox" class="term_button" style="width: 15px; height: 15px; margin-left: 0px;"/><span class="agree_term">I agree to the terms and conditions and the privacy policy</span>
-                <br>
-                <input type="button" class="create_acc" value="Create Account"/>
-
-            </form>
+            </form:form>
         </div>
     </article>
     <div class="main">

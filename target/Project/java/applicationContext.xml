@@ -8,11 +8,11 @@
     <context:component-scan base-package="com.app.code"/>
     <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <context:property-placeholder location="resources/Properties/validation.properties"/>
 
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
-
     </bean>
 </beans>

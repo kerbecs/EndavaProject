@@ -1,6 +1,9 @@
 package com.app.code;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -13,9 +16,11 @@ public class Customer {
     private int id;
 
     @Column(name="first_name")
+    @Size(min = 2,max = 20,message = "Enter a first name between 2 and 20")
     private String firstName;
 
     @Column(name = "last_name")
+    @Size(min = 2,max = 20,message = "Enter a last name between 2 and 20")
     private String lastName;
 
     @Column(name="email")

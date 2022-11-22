@@ -3,10 +3,10 @@ package com.app.code;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+
 
 @Entity
-@Table(name = "order")
+@Table(name = "order_list")
 public class Order {
 
     @Id
@@ -15,11 +15,11 @@ public class Order {
     private int orderId;
 
     @Column(name = "order_time")
-    private Timestamp orderTime;
+    private String orderTime;
 
-    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name="client_id")
-    private Client client;
+    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="customer_id")
+    private Customer customer;
 
     @Column(name="price")
     private int price;
@@ -30,9 +30,9 @@ public class Order {
 
     public Order(){ }
 
-    public Order(Timestamp orderTime, Client client, int price, Product product) {
+    public Order(String orderTime, Customer customer, int price, Product product) {
         this.orderTime = orderTime;
-        this.client = client;
+        this.customer = customer;
         this.price = price;
         this.product = product;
     }
@@ -45,20 +45,20 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Timestamp getOrderTime() {
+    public String getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Timestamp orderTime) {
+    public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
     }
 
-    public Client getClient() {
-        return client;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public int getPrice() {
@@ -82,7 +82,7 @@ public class Order {
         return "Order{" +
                 "orderId=" + orderId +
                 ", orderTime=" + orderTime +
-                ", client=" + client +
+                ", customer=" + customer +
                 ", price=" + price +
                 ", product=" + product +
                 '}';

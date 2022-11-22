@@ -1,23 +1,36 @@
 package com.app.code;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_detail")
 public class User {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
     private int user_id;
 
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name = " customer_id")
+    @NotNull(message = "Can't be empty")
+    private Customer customer;
+
+    @Size(min = 5,message = "At least 5 characters are required")
     @Column(name="username")
     private String username;
 
+    @Size(min = 6,message = "At least 6 characters are required")
     @Column(name = "password")
     private String password;
 
     public User(){ }
+
+    public User(Customer customer) {
+        this.customer = customer;
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -47,7 +60,13 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public Customer getCustomer() {
+        return customer;
+    }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
     @Override
     public String toString() {
         return "User{" +
@@ -56,4 +75,5 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

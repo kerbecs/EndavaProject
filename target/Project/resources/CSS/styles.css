@@ -43,21 +43,37 @@ section article .regZone, section article .logZone{
 
     border-radius: 15px;
 }
-section article .regZone span, section article .lognZone span {
+section article .lognZone span {
     height: 10%;
     display: block;
     text-align: center;
     background-color: white;
     opacity: 1;
     border-radius: 15px;
-
+    background-color: transparent;
+    position: relative;
 }
-section article .regZone span font,section article .logZone span font{
+section article .logZone span font{
     font-size: 34px;
     position: relative;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: bold;
     top: 20%;
+}
+.registerText {
+    font-size: 28px;
+    top: 2%;
+    margin-left: 43%;
+    position: relative;
+}
+.regZone span{
+    position: relative;
+    left: 5%;
+}
+.registerText{
+    font-size: 28px;
+    margin-top: 5%;
+    margin-left: 35%;
 }
 section article .logZone{
     width: 26%;
@@ -73,7 +89,7 @@ section article .logZone .user, section article .logZone .pass{
 section article .logZone span{
     position: absolute;
     top: 6%;
-    left: 36%;
+    left: 37%;
 }
 article .logZone .loginFont{
     font-size: 15px;
@@ -102,6 +118,7 @@ form .email, form .username, form .password{
 form .create_acc, form .login{
     width: 92.5%;
     height: 48px;
+    bottom: 30px;
     position: relative;
     left: 3.5%;
     font-size: 24px;
@@ -147,13 +164,19 @@ section article .logZone form .notRegistered{
     left: 18%;
 }
 
-
-.required{
+.error{
     color: red;
-
 }
-.requiredfn{
-    margin-left: 4%;
+
+.required {
+    color: red;
+    position: absolute;
+    width: 100%;
+    right: 26%;
+}
+.requiredfn {
+    left: -14%;
+    position: relative;
 }
 .requiredln{
     margin-left: 28%;
@@ -183,11 +206,11 @@ input[type=password]{
     bottom: 11px;
 }
 .agree_term{
-    position: absolute;
+    position: relative;
     left: 8%;
-    bottom: 6.5%;
+    bottom: 35px;
     background-color: transparent;
-
+    width: 92%;
 
 }
 
