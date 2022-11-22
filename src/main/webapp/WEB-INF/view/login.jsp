@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@page isELIgnored="false" %>
 
 <html>
 
@@ -46,7 +47,9 @@
         <div class="logZone">
             <span><font>LogIn</font></span>
             <form:form action="loginCheck" modelAttribute="userTest">
-                <br><br><br><br><br>
+                <br><br><br>
+                <p class="invalid">${invalid}</p>
+                <br><br>
                 <font class="loginFont">Username</font><br>
                 <form:input type="text" class="fname user" placeholder="Enter your username" path="username"/>
                 <br>

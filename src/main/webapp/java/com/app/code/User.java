@@ -14,7 +14,7 @@ public class User {
     private int user_id;
 
     @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name = " customer_id")
+    @JoinColumn(name = "customer_id")
     @NotNull(message = "Can't be empty")
     private Customer customer;
 

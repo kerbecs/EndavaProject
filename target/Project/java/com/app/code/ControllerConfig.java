@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -30,8 +31,9 @@ public class ControllerConfig {
     }
 
     @RequestMapping("/login")
-    public String showLoginPage(Model model){
-        User user = config.getBean("user",User.class);
+    public String showLoginPage(Model model, HttpServletRequest httpServletRequest){
+        User user = new User();
+
 
         model.addAttribute("userTest",user);
         return "login";
@@ -76,14 +78,20 @@ public class ControllerConfig {
     }
 
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
-    public String showLogged(@Valid @ModelAttribute("userTest")
-    User user, BindingResult bindingResult, Model model){
+    public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
+    User user, BindingResult bindingResult, ModelAndView modelAndView){
+        HibernateClass.searchUser(user);
+        if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
 
-        if(bindingResult.hasErrors()){
-            return "login";
+            user.setPassword("");
+            return new ModelAndView("login","invalid","Invalid username or/and password");
+        }
+        if(!HibernateClass.searchUser(user)){
+            user.setPassword("");
+            return new ModelAndView("login","invalid","Invalid username or/and password");
         }
         else {
-            return "homeLogged";
+            return new ModelAndView("homeLogged");
         }
     }
     @RequestMapping(value = "/registeredCheck", method = RequestMethod.POST)
@@ -97,5 +105,10 @@ public class ControllerConfig {
             UserRegistration.createUser(user);
             return "registered";
         }
+    }
+
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logout(){
+        return "home";
     }
 }

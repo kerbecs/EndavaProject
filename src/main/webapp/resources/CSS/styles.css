@@ -167,6 +167,14 @@ section article .logZone form .notRegistered{
 .error{
     color: red;
 }
+.invalid{
+    color: red;
+    font-size: 15px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    position: absolute;
+    top: 14%;
+    left: 10%;
+}
 
 .required {
     color: red;
@@ -220,14 +228,14 @@ nav{
     height: 10%;
     position: absolute;
     left: 32%;
-    top: 4%;
+    top: 2%;
 }
 
 
 nav .buttons{
     font-size: 27px;
     position: absolute;
-    bottom: 38%;
+    bottom: 0%;
     left: 10%;
 }
 nav .buttons a, nav .buttons a:link, nav.buttons a:active, nav.buttons a:visited{
