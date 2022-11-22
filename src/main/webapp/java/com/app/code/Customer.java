@@ -38,8 +38,6 @@ public class Customer {
     @Column(name="orders")
     private int orders;
 
-    @OneToMany(mappedBy = "customer")
-    List<Order> Order;
 
     public Customer() { }
 
@@ -130,11 +128,4 @@ public class Customer {
                 '}';
     }
 
-    public List<com.app.code.Order> getOrder() {
-        return Order;
-    }
-
-    public void setOrder(List<com.app.code.Order> order) {
-        Order = order;
-    }
 }

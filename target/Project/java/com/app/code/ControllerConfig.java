@@ -94,6 +94,7 @@ public class ControllerConfig {
             return "register";
         }
         else{
+            UserRegistration.createUser(user);
             return "registered";
         }
     }
