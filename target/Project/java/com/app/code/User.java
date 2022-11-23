@@ -13,9 +13,8 @@ public class User {
     @Column(name="user_id")
     private int user_id;
 
-    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-    @JoinColumn(name = " customer_id")
-    @NotNull(message = "Can't be empty")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @Size(min = 5,message = "At least 5 characters are required")

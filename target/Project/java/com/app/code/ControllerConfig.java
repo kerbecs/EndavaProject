@@ -1,5 +1,6 @@
 package com.app.code;
 
+import org.hibernate.Hibernate;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,16 @@ import javax.validation.Valid;
 
 @Controller
 @Validated
+@SessionAttributes(value = {"globalUser","infoUser"})
 public class ControllerConfig {
     AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext(appContext.class);
+
+    @ModelAttribute("globalUser")
+    public User globalUser(){
+        User user = config.getBean("user",User.class);
+        user.setCustomer(config.getBean("customer", Customer.class));
+        return user;
+    }
 
     @RequestMapping("/")
     public String showMainPage(){
@@ -27,14 +36,12 @@ public class ControllerConfig {
 
     @RequestMapping("/home")
     public String showMainPage2(){
+
         return "home";
     }
 
     @RequestMapping("/login")
-    public String showLoginPage(Model model, HttpServletRequest httpServletRequest){
-        User user = new User();
-
-
+    public String showLoginPage(@ModelAttribute("globalUser")User user,Model model, HttpServletRequest httpServletRequest){
         model.addAttribute("userTest",user);
         return "login";
     }
@@ -52,12 +59,16 @@ public class ControllerConfig {
         return "about";
     }
 
-    @RequestMapping("/order")
-    public String showOrderPage(){
-        return "order";
+    @RequestMapping(value="/order",method = RequestMethod.GET)
+    public ModelAndView showOrderPage(Model model){
+        return new ModelAndView("order","products",HibernateClass.getAllProducts());
     }
     @RequestMapping("/profile")
-    public String showProfile(){
+    public String showProfile(@ModelAttribute("globalUser")User user,Model model){
+        user.setCustomer(HibernateClass.getCustomerDetail(user));
+        UserRegistration userRegistration = new UserRegistration();
+        userRegistration.copy(user,user.getCustomer());
+        model.addAttribute("infoUser",userRegistration);
         return "profile";
     }
 
@@ -73,42 +84,60 @@ public class ControllerConfig {
     }
 
     @RequestMapping("/homeLogged")
-    public String mainPageLogged(){
+    public String mainPageLogged(@ModelAttribute("globalUser")User user,Model model){
+        model.addAttribute("userLogged",user);
         return "homeLogged";
     }
 
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
     public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
-    User user, BindingResult bindingResult, ModelAndView modelAndView){
-        HibernateClass.searchUser(user);
+    User user,@ModelAttribute("globalUser") User globalUser, BindingResult bindingResult, ModelAndView modelAndView, Model model){
         if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
-
-            user.setPassword("");
-            return new ModelAndView("login","invalid","Invalid username or/and password");
-        }
-        if(!HibernateClass.searchUser(user)){
             user.setPassword("");
             return new ModelAndView("login","invalid","Invalid username or/and password");
         }
         else {
+            globalUser.setPassword(user.getPassword());
+            globalUser.setUsername(user.getUsername());
+            model.addAttribute("User",globalUser);
             return new ModelAndView("homeLogged");
         }
     }
-    @RequestMapping(value = "/registeredCheck", method = RequestMethod.POST)
-    public String showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user, BindingResult bindingResult, Model model){
+    @RequestMapping(value = "/registeredCheck", method = RequestMethod.GET)
+    public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user,@ModelAttribute("globalUser")User globalUser, BindingResult bindingResult, Model model){
         System.out.println(user);
-        if(bindingResult.hasErrors() || !user.checkPassword()){
-
-            return "register";
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("register");
+        }
+        else if(!user.checkPassword()){
+            return new ModelAndView("register","pass","The passwords doesn't match");
+        }
+        else if(HibernateClass.verifyUsernameExist(user)){
+            return new ModelAndView("register","busy","This username is taken.");
         }
         else{
             UserRegistration.createUser(user);
-            return "registered";
+            globalUser.setPassword(user.getPassword1());
+            globalUser.setUsername(user.getUsername());
+            return new ModelAndView("registered");
         }
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logout(){
         return "home";
+    }
+
+    @RequestMapping(value="updateProfile",method = RequestMethod.POST)
+    public ModelAndView updateProfile(@ModelAttribute("infoUser")UserRegistration infoUser,@ModelAttribute("globalUser")User globalUser,Model model){
+
+        if(!HibernateClass.updateProfile(infoUser))
+        {
+            return new ModelAndView("profile", "error", "You have some mistakes in your profile.");
+        }
+        else{
+            model.addAttribute("infoUser", infoUser);
+            return new ModelAndView("profile");
+        }
     }
 }

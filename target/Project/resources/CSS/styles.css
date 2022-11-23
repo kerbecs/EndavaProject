@@ -366,6 +366,7 @@ section article .product{
     width: 84%;
     height: 35%;
     margin-left: 8%;
+    padding: 0 0 20%;
 }
 section article .product  .img {
     position: absolute;
@@ -392,8 +393,8 @@ section article .product span img{
     float: left;
 }
 .addButton{
-    position: absolute;
-    left: 82%;
+    position: relative;
+    left: 90%;
     top: 30%;
 }
 .infoProfile{
@@ -417,7 +418,7 @@ section article .product span img{
 .infoProfile .info .personal{
     position: absolute;
     width: 70%;
-    left: 38%;
+    left: 10%;
 }
 input[type="checkbox" i] {
     width: 40px;
@@ -437,34 +438,28 @@ input[type="text" i]{
     font-family: Georgia, 'Times New Roman', Times, serif;
     letter-spacing: 1.5px;
 }
-.save{
+.save, .infoProfile input{
     position: relative;
-    background-color: #E8E326;
     width: 15%;
     height: 40px;
     margin-left: 43%;
-    font-size: 18px;
-    border: 1px solid white;
     border-radius: 10px;
-    color: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-weight: bold;
-    text-decoration: none;
     transition: background-color 1s;
-    cursor: pointer;
 
 }
-.save a{
-    position: relative;
-    top: 12%;
-}
-.save a:link, .save a:visited, .save a:active .save a:hover{
+
+
+.orderNow {
+    background-color: #E39816;
     color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-.save:hover {
-    background-color: #ECBF07;
+    position: relative;
+    left: 42%;
+    width: 28%;
+    height: 40px;
+    border: none;
+    font-size: 17px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border-radius: 5px;
 }
 @media only screen AND (max-width: 1000px){
     section .main img{

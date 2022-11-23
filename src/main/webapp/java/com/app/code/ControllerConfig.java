@@ -18,9 +18,16 @@ import javax.validation.Valid;
 
 @Controller
 @Validated
-@SessionAttributes(value = {"currentUser"})
+@SessionAttributes(value = {"globalUser","infoUser"})
 public class ControllerConfig {
     AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext(appContext.class);
+
+    @ModelAttribute("globalUser")
+    public User globalUser(){
+        User user = config.getBean("user",User.class);
+        user.setCustomer(config.getBean("customer", Customer.class));
+        return user;
+    }
 
     @RequestMapping("/")
     public String showMainPage(){
@@ -34,10 +41,7 @@ public class ControllerConfig {
     }
 
     @RequestMapping("/login")
-    public String showLoginPage(Model model, HttpServletRequest httpServletRequest){
-        User user = new User();
-
-
+    public String showLoginPage(@ModelAttribute("globalUser")User user,Model model, HttpServletRequest httpServletRequest){
         model.addAttribute("userTest",user);
         return "login";
     }
@@ -60,7 +64,11 @@ public class ControllerConfig {
         return new ModelAndView("order","products",HibernateClass.getAllProducts());
     }
     @RequestMapping("/profile")
-    public String showProfile(Model model){
+    public String showProfile(@ModelAttribute("globalUser")User user,Model model){
+        user.setCustomer(HibernateClass.getCustomerDetail(user));
+        UserRegistration userRegistration = new UserRegistration();
+        userRegistration.copy(user,user.getCustomer());
+        model.addAttribute("infoUser",userRegistration);
         return "profile";
     }
 
@@ -76,24 +84,27 @@ public class ControllerConfig {
     }
 
     @RequestMapping("/homeLogged")
-    public String mainPageLogged(){
+    public String mainPageLogged(@ModelAttribute("globalUser")User user,Model model){
+        model.addAttribute("userLogged",user);
         return "homeLogged";
     }
 
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
     public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
-    User user, BindingResult bindingResult, ModelAndView modelAndView, Model model){
+    User user,@ModelAttribute("globalUser") User globalUser, BindingResult bindingResult, ModelAndView modelAndView, Model model){
         if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
             user.setPassword("");
             return new ModelAndView("login","invalid","Invalid username or/and password");
         }
         else {
-            model.addAttribute("currentUser",user.getCustomer());
+            globalUser.setPassword(user.getPassword());
+            globalUser.setUsername(user.getUsername());
+            model.addAttribute("User",globalUser);
             return new ModelAndView("homeLogged");
         }
     }
-    @RequestMapping(value = "/registeredCheck", method = RequestMethod.POST)
-    public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user, BindingResult bindingResult, Model model){
+    @RequestMapping(value = "/registeredCheck", method = RequestMethod.GET)
+    public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user,@ModelAttribute("globalUser")User globalUser, BindingResult bindingResult, Model model){
         System.out.println(user);
         if(bindingResult.hasErrors()){
             return new ModelAndView("register");
@@ -106,6 +117,8 @@ public class ControllerConfig {
         }
         else{
             UserRegistration.createUser(user);
+            globalUser.setPassword(user.getPassword1());
+            globalUser.setUsername(user.getUsername());
             return new ModelAndView("registered");
         }
     }
@@ -113,5 +126,18 @@ public class ControllerConfig {
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logout(){
         return "home";
+    }
+
+    @RequestMapping(value="updateProfile",method = RequestMethod.POST)
+    public ModelAndView updateProfile(@ModelAttribute("infoUser")UserRegistration infoUser,@ModelAttribute("globalUser")User globalUser,Model model){
+
+        if(!HibernateClass.updateProfile(infoUser))
+        {
+            return new ModelAndView("profile", "error", "You have some mistakes in your profile information.");
+        }
+        else{
+            model.addAttribute("infoUser", infoUser);
+            return new ModelAndView("profile");
+        }
     }
 }

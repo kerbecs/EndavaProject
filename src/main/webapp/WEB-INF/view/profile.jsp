@@ -48,17 +48,20 @@
         <div class="aboutUs">
             <p class="welcome">Your profile</p>
             <hr>
-            <form:form modelAttribute="">
+            <br>
+            <font style="color: red;font-size:14px;font-family:Verdana;position:relative;left:0%;">
+                ${error}</font>
+            <form:form modelAttribute="infoUser" action="updateProfile">
             <div class="infoProfile">
-                <p class="info">First Name <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <p class="info">Last Name <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <p class="info">Email <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <p class="info">City/Town/Village <span class="personal"><input type="text" class="personalInfo"/></span> </p>
-                <p class="info">Address <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <p class="info">Job <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <p class="info">Orders <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <p class="info">New Password <span class="personal"><input type="text" class="personalInfo"/></span></p>
-                <div class="save"><a href="">Save</a></div>
+                <p class="info">First Name <span class="personal"><form:input class="personalInfo" path="firstName"/></span></p>
+                <p class="info">Last Name <span class="personal"><form:input type="text" class="personalInfo" path="lastName"/></span></p>
+                <p class="info">Email <span class="personal"><form:input type="text" class="personalInfo" path="email"/></span></p>
+                <p class="info">City/Town/Village <span class="personal"><form:input type="text" class="personalInfo" path="location"/></span> </p>
+                <p class="info">Address <span class="personal"><form:input type="text" class="personalInfo" path="address"/></span></p>
+                <p class="info">Job <span class="personal"><form:input type="text" class="personalInfo" path="job"/></span></p>
+                <p class="info">Orders <span class="personal"><form:input type="text" class="personalInfo" path="orders" disabled="true"/></span></p>
+                <p class="info">New Password <span class="personal"><form:password class="personalInfo" path="password"/></span></p>
+                <input type="submit" value="Submit" style="    position: relative;right: 20%;font-size: 18px;font-weight: bold;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;background-color: #ECBF07;cursor:pointer;"/>
                 </form:form>
                 <br><br>
             </div>
