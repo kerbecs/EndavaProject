@@ -8,6 +8,8 @@
 <!DOCTYPE HTML>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page isELIgnored="false" %>
 
 <html>
 
@@ -46,6 +48,7 @@
         <div class="aboutUs">
             <p class="welcome">Your profile</p>
             <hr>
+            <form:form modelAttribute="">
             <div class="infoProfile">
                 <p class="info">First Name <span class="personal"><input type="text" class="personalInfo"/></span></p>
                 <p class="info">Last Name <span class="personal"><input type="text" class="personalInfo"/></span></p>
@@ -56,6 +59,7 @@
                 <p class="info">Orders <span class="personal"><input type="text" class="personalInfo"/></span></p>
                 <p class="info">New Password <span class="personal"><input type="text" class="personalInfo"/></span></p>
                 <div class="save"><a href="">Save</a></div>
+                </form:form>
                 <br><br>
             </div>
         </div>

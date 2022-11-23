@@ -1,5 +1,6 @@
 package com.app.code;
 
+import org.hibernate.Hibernate;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 
 @Controller
 @Validated
+@SessionAttributes(value = {"currentUser"})
 public class ControllerConfig {
     AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext(appContext.class);
 
@@ -27,6 +29,7 @@ public class ControllerConfig {
 
     @RequestMapping("/home")
     public String showMainPage2(){
+
         return "home";
     }
 
@@ -52,12 +55,12 @@ public class ControllerConfig {
         return "about";
     }
 
-    @RequestMapping("/order")
-    public String showOrderPage(){
-        return "order";
+    @RequestMapping(value="/order",method = RequestMethod.GET)
+    public ModelAndView showOrderPage(Model model){
+        return new ModelAndView("order","products",HibernateClass.getAllProducts());
     }
     @RequestMapping("/profile")
-    public String showProfile(){
+    public String showProfile(Model model){
         return "profile";
     }
 
@@ -79,31 +82,31 @@ public class ControllerConfig {
 
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
     public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
-    User user, BindingResult bindingResult, ModelAndView modelAndView){
-        HibernateClass.searchUser(user);
+    User user, BindingResult bindingResult, ModelAndView modelAndView, Model model){
         if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
-
-            user.setPassword("");
-            return new ModelAndView("login","invalid","Invalid username or/and password");
-        }
-        if(!HibernateClass.searchUser(user)){
             user.setPassword("");
             return new ModelAndView("login","invalid","Invalid username or/and password");
         }
         else {
+            model.addAttribute("currentUser",user.getCustomer());
             return new ModelAndView("homeLogged");
         }
     }
     @RequestMapping(value = "/registeredCheck", method = RequestMethod.POST)
-    public String showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user, BindingResult bindingResult, Model model){
+    public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user, BindingResult bindingResult, Model model){
         System.out.println(user);
-        if(bindingResult.hasErrors() || !user.checkPassword()){
-
-            return "register";
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("register");
+        }
+        else if(!user.checkPassword()){
+            return new ModelAndView("register","pass","The passwords doesn't match");
+        }
+        else if(HibernateClass.verifyUsernameExist(user)){
+            return new ModelAndView("register","busy","This username is taken.");
         }
         else{
             UserRegistration.createUser(user);
-            return "registered";
+            return new ModelAndView("registered");
         }
     }
 

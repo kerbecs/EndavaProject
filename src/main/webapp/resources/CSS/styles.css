@@ -366,6 +366,7 @@ section article .product{
     width: 84%;
     height: 35%;
     margin-left: 8%;
+    padding: 0 0 20%;
 }
 section article .product  .img {
     position: absolute;
@@ -392,8 +393,8 @@ section article .product span img{
     float: left;
 }
 .addButton{
-    position: absolute;
-    left: 82%;
+    position: relative;
+    left: 90%;
     top: 30%;
 }
 .infoProfile{
@@ -465,6 +466,18 @@ input[type="text" i]{
 }
 .save:hover {
     background-color: #ECBF07;
+}
+.orderNow {
+    background-color: #E39816;
+    color: black;
+    position: relative;
+    left: 42%;
+    width: 28%;
+    height: 40px;
+    border: none;
+    font-size: 17px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border-radius: 5px;
 }
 @media only screen AND (max-width: 1000px){
     section .main img{

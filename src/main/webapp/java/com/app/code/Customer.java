@@ -38,6 +38,8 @@ public class Customer {
     @Column(name="orders")
     private int orders;
 
+    @OneToOne(mappedBy = "customer")
+    private User user;
 
     public Customer() { }
 

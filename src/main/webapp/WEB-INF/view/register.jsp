@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isELIgnored="false" %>
 <html>
 
 <head>
@@ -58,15 +59,15 @@
                 <br>
                 <form:input type="text" placeholder="Username" class="username" path="username"/>
                 <br>
-                <form:errors path="username" cssClass="error"/>
+                <form:errors path="username" cssClass="error"/><span class="error">${busy}</span>
                 <br>
                 <form:input type="password" placeholder="Password" class="password" path="password1"/>
                 <br>
-                <form:errors path="password1" cssClass="error"/>
+                <form:errors path="password1" cssClass="error"/><span class="error">${pass}</span>
                 <br>
                 <form:input type="password" placeholder="Repeat your password" class="password" path="password2"/>
                 <br>
-                <form:errors path="password2" cssClass="error"/>
+                <form:errors path="password2" cssClass="error"/><span class="error">${pass}</span>
                 <br>
 
                 <form:input type="text" class="lname place" placeholder="Address" path="address"/>
@@ -79,6 +80,7 @@
                 <input type="submit" class="create_acc" value="Create Account"/>
 
             </form:form>
+            <br><br><br><br>
         </div>
     </article>
     <div class="main">
