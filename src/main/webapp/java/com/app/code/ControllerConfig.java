@@ -40,7 +40,7 @@ public class ControllerConfig {
     }
 
     @RequestMapping("/login")
-    public String showLoginPage(@ModelAttribute("globalUser")User user,Model model, HttpServletRequest httpServletRequest){
+    public String showLoginPage(@ModelAttribute("globalUser")User user, HttpServletRequest httpServletRequest, Model model){
         model.addAttribute("userTest",user);
         return "login";
     }
@@ -98,7 +98,7 @@ public class ControllerConfig {
 
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
     public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
-    User user,@ModelAttribute("globalUser") User globalUser, BindingResult bindingResult, ModelAndView modelAndView, Model model){
+    User user,BindingResult bindingResult,ModelAndView modelAndView,@ModelAttribute("globalUser") User globalUser,  Model model){
         if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
             user.setPassword("");
             return new ModelAndView("login","invalid","Invalid username or/and password");
@@ -110,9 +110,8 @@ public class ControllerConfig {
             return new ModelAndView("homeLogged");
         }
     }
-    @RequestMapping(value = "/registeredCheck", method = RequestMethod.GET)
-    public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user,@ModelAttribute("globalUser")User globalUser, BindingResult bindingResult, Model model){
-        System.out.println(user);
+    @RequestMapping(value = "/registeredCheck", method = RequestMethod.POST)
+    public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user,BindingResult bindingResult,@ModelAttribute("globalUser")User globalUser, Model model){
         if(bindingResult.hasErrors()){
             return new ModelAndView("register");
         }

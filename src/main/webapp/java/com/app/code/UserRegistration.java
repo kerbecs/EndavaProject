@@ -9,9 +9,9 @@ public class UserRegistration {
 
     @Size(min = 5,message = "At least 5 char required")
     private String username;
-    @Size(min = 6,message = "At least 6 char required")
     private String password;
 
+    @Size(min = 6,message = "At least 6 char required")
     private String password1;
     @Size(min = 6,message = "At least 6 char required")
 
