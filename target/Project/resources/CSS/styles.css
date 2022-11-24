@@ -228,7 +228,7 @@ nav{
     height: 10%;
     position: absolute;
     left: 32%;
-    top: 2%;
+    top: -2%;
 }
 
 
@@ -460,6 +460,11 @@ input[type="text" i]{
     font-size: 17px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 1s;
+}
+.orderNow:hover{
+    background-color: #E39816;
 }
 @media only screen AND (max-width: 1000px){
     section .main img{

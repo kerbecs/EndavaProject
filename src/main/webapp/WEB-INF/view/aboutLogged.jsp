@@ -19,11 +19,11 @@
 <body>
 
 
-<nav class>
+<nav class style="margin-top: 3%;">
     <div class="buttons">
         <a href="home">Home</a>
         <a href="aboutUs">About Us</a>
-        <a href="order">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
+        <a href="orderLogged">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
         <a href="profile">Profile</a>
         <a href="logout">Logout</a>
         <a href=""><img src="<c:url value="/resources/Images/facebook.png"/>" class="facebook facebookLogged" alt="Img"/></a>

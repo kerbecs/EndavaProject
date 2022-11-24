@@ -17,11 +17,9 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/CSS/styles.css"/>">
 </head>
 <body>
-
-
 <nav class style="margin-top: 3%;">
     <div class="buttons">
-        <a href="">Home</a>
+        <a href="home">Home</a>
         <a href="aboutUs">About Us</a>
         <a href="orderLogged">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
         <a href="profile">Profile</a>
@@ -44,10 +42,10 @@
 <section>
     <article>
         <div class="aboutUs">
-            <p class="welcome">We are sorry</p>
+            <p class="welcome">Welcome</p>
             <hr>
-            <p>An unknown error has occured.</p>
-            <p>Please contact us or try this action again later.</p>
+            <p>You were successfully registered.</p>
+            <p>If you need help, contact us. </p>
         </div>
     </article>
     <div class="main">

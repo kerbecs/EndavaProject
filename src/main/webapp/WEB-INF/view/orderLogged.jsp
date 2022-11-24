@@ -7,7 +7,9 @@
 --%>
 <!DOCTYPE HTML>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isELIgnored="false" %>
 
 <html>
 <head>
@@ -16,15 +18,14 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/CSS/styles.css"/>">
 </head>
 <body>
-<nav class>
+<nav class style="margin-top: -1%;">
     <div class="buttons">
-        <a href="home">Home</a>
-        <a href="aboutUs">About Us</a>
-        <a href="order">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
-        <a href="profile">Profile</a>
-        <a href="logout">Logout</a>
-        <a href=""><img src="<c:url value="/resources/Images/facebook.png"/>" class="facebook facebookLogged" alt="Img"/></a>
-        <a href=""><img src="<c:url value="/resources/Images/instagram.png"/>" class="instagram instagramLogged" alt="Img"/></a>
+        <a href="homeLogged">Home</a>
+        <a href="aboutLogged">About Us</a>
+        <a href="orderLogged">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
+        <a href="loginLogged">Log in</a>
+        <a href=""><img src="<c:url value="/resources/Images/facebook.png"/>" class="facebook" alt="Img"/></a>
+        <a href=""><img src="<c:url value="/resources/Images/instagram.png"/>" class="instagram" alt="Img"/></a>
     </div>
 
 </nav>
@@ -42,21 +43,29 @@
     <article>
         <div class="orderProduct">
             <p class="welcome">Order Food <br>Online</p>
+            <form:form modelAttribute="list" action="validateOrder">
+            <c:forEach var="var" items="${products}">
             <p class="product">
                 <span class="img"><img src="<c:url value="/resources/Images/pizza.jpg"/> " alt="Img"/></span>
                 <span class="description">
-                    <b style="font-size: 20px;">Pizza Margarita</b>
+                    <b style="font-size: 20px;">${var.title}</b>
                     <br>
                     <br>
-                    <b>Ingredients:</b> salt, sausages, mozzarela, tomatoes, ketchup, olive, oil
-                    <br><br><b>Weight:</b> 330gr
+                    <b>Ingredients: </b>${var.ingredients}
+                    <br><br><b>Weight: </b>${var.weight}gr
+                    <br><b style="font-size: 16px;color:goldenrod;">Price: </b>${var.price} Euros
                 </span>
                 <span class="addButton">
                     <b>Add to list</b>
                     <br>
-                    <input type="checkbox" class="add"/>
+                    <form:checkbox path="productList" class="add" value="${var.title}"/>
                 </span>
+                    <br><br>
             </p>
+            </c:forEach>
+                <input type="submit" value="Order Now" class="orderNow"/>
+            </form:form>
+            <br><br>
         </div>
     </article>
     <div class="main">

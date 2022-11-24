@@ -44,10 +44,11 @@
 <section>
     <article>
         <div class="aboutUs">
-            <p class="welcome">We are sorry</p>
+            <p class="welcome">Order performed</p>
             <hr>
-            <p>An unknown error has occured.</p>
-            <p>Please contact us or try this action again later.</p>
+            <p>Your order has been successfully performed.</p>
+            <p>Thank you for choosing us.</p>
+            <p>If you have problems with your order, contact us.</p>
         </div>
     </article>
     <div class="main">

@@ -1,6 +1,5 @@
 package com.app.code;
 
-import org.hibernate.Hibernate;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,9 +58,17 @@ public class ControllerConfig {
         return "about";
     }
 
-    @RequestMapping(value="/order",method = RequestMethod.GET)
-    public ModelAndView showOrderPage(Model model){
+    @RequestMapping(value = "/order")
+    public ModelAndView showOrderPage(){
         return new ModelAndView("order","products",HibernateClass.getAllProducts());
+    }
+
+    @RequestMapping(value="/orderLogged",method = RequestMethod.GET)
+    public ModelAndView showOrderLoggedPage(@ModelAttribute("globalUser")User user,Model model){
+        model.addAttribute("list",new doCommand());
+        System.out.println(user);
+        model.addAttribute("infoUser",user);
+        return new ModelAndView("orderLogged","products",HibernateClass.getAllProducts());
     }
     @RequestMapping("/profile")
     public String showProfile(@ModelAttribute("globalUser")User user,Model model){
@@ -80,7 +87,7 @@ public class ControllerConfig {
 
     @RequestMapping("/orderLogged")
     public String showOrderPageLogged(){
-        return "orderLogged";
+        return "order";
     }
 
     @RequestMapping("/homeLogged")
@@ -139,5 +146,15 @@ public class ControllerConfig {
             model.addAttribute("infoUser", infoUser);
             return new ModelAndView("profile");
         }
+    }
+
+    @RequestMapping("/validateOrder")
+    public String validateOrder(@ModelAttribute("globalUser")User user,@ModelAttribute("list")doCommand list, Model model){
+        HibernateClass.addCommand(list,user);
+        return "thx";
+    }
+    @RequestMapping("/notLogged")
+    public String notLogged(){
+        return "notLogged";
     }
 }
