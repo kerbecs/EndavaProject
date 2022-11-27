@@ -37,6 +37,8 @@ public class UserRegistration {
     private String job;
     private int orders;
 
+    private boolean logged = false;
+
     public UserRegistration() {
     }
 
@@ -130,6 +132,14 @@ public class UserRegistration {
 
     public boolean checkPassword(){
         return getPassword1().equals(getPassword2());
+    }
+
+    public boolean isLogged() {
+        return logged;
+    }
+
+    public void setLogged(boolean logged) {
+        this.logged = logged;
     }
 
     @Override

@@ -23,7 +23,7 @@
 <nav class>
     <div class="buttons">
         <a href="home">Home</a>
-        <a href="aboutUs">About Us</a>
+        <a href="about">About Us</a>
         <a href="order">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon"/>
         <a href="login">Log in</a>
         <a href=""><img src="<c:url value="/resources/Images/facebook.png"/>" class="facebook" alt="Img"/></a>
@@ -76,7 +76,7 @@
                     <form:errors path="location" cssClass="error" cssStyle="left: 27%;bottom:17px"/>
                 <br>
                 <br> <br>
-                <input type="checkbox" class="term_button" style="width: 15px; height: 15px; margin-left: 0px;"/><div class="agree_term">I agree to the terms, conditions and privacy policy</div>
+                <input type="checkbox" class="term_button" style="width: 15px; height: 15px; margin-left: 0px;" required/><div class="agree_term">I agree to the terms, conditions and privacy policy</div>
                 <input type="submit" class="create_acc" value="Create Account"/>
 
             </form:form>

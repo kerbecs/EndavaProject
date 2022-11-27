@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @Validated
-@SessionAttributes(value = {"globalUser","infoUser"})
+@SessionAttributes(value = {"globalUser","infoUser","registerTest"})
 public class ControllerConfig {
     AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext(appContext.class);
 
@@ -27,51 +27,72 @@ public class ControllerConfig {
         user.setCustomer(config.getBean("customer", Customer.class));
         return user;
     }
+    @ModelAttribute("registerTest")
+    public UserRegistration userRegistration(){
+        return config.getBean("userRegistration",UserRegistration.class);
+    }
 
     @RequestMapping("/")
-    public String showMainPage(){
+    public String showMainPage(@ModelAttribute("globalUser")User user,Model model, @ModelAttribute("registerTest")UserRegistration userLogged){
+        if(userLogged.isLogged()) {
+            model.addAttribute("userLogged",user);
+            return "homeLogged";
+        }
         return "home";
+
     }
 
     @RequestMapping("/home")
-    public String showMainPage2(){
-
+    public String showMainPage2(@ModelAttribute("globalUser")User user,Model model, @ModelAttribute("registerTest")UserRegistration userLogged){
+        System.out.println(userLogged.isLogged());
+        if(userLogged.isLogged()) {
+            model.addAttribute("userLogged",user);
+            return "homeLogged";
+        }
         return "home";
     }
-
     @RequestMapping("/login")
-    public String showLoginPage(@ModelAttribute("globalUser")User user, HttpServletRequest httpServletRequest, Model model){
-        model.addAttribute("userTest",user);
-        return "login";
+    public String showLoginPage(@ModelAttribute("globalUser")User user, Model model,@ModelAttribute("registerTest")UserRegistration userLogged){
+        if(!userLogged.isLogged()) {
+            model.addAttribute("userTest", user);
+            return "login";
+        }
+        else
+            return "home";
     }
 
     @RequestMapping("/register")
-    public String showRegisterPage(Model model){
-        UserRegistration user = config.getBean("userRegistration",UserRegistration.class);
-
-        model.addAttribute("registerTest",user);
-        return "register";
+    public String showRegisterPage(@ModelAttribute("registerTest")UserRegistration userLogged,Model model){
+        if(!userLogged.isLogged()) {
+            model.addAttribute("registerTest", userLogged);
+            return "register";
+        }
+        else
+            return "home";
     }
 
-    @RequestMapping("/aboutUs")
-    public String showAboutUsPage(){
+    @RequestMapping("/about")
+    public String showAboutUsPage(@ModelAttribute("registerTest")UserRegistration user){
+        if(user.isLogged())
+          return "aboutLogged";
         return "about";
     }
 
-    @RequestMapping(value = "/order")
-    public ModelAndView showOrderPage(){
+
+    @RequestMapping(value="/order",method = RequestMethod.GET)
+    public ModelAndView showOrderLoggedPage(@ModelAttribute("globalUser")User user,Model model,@ModelAttribute("registerTest")UserRegistration userLogged){
+        model.addAttribute("list",new doCommand());
+        if(userLogged.isLogged()) {
+            model.addAttribute("infoUser", user);
+            return new ModelAndView("orderLogged", "products", HibernateClass.getAllProducts());
+        }
         return new ModelAndView("order","products",HibernateClass.getAllProducts());
     }
-
-    @RequestMapping(value="/orderLogged",method = RequestMethod.GET)
-    public ModelAndView showOrderLoggedPage(@ModelAttribute("globalUser")User user,Model model){
-        model.addAttribute("list",new doCommand());
-        System.out.println(user);
-        model.addAttribute("infoUser",user);
-        return new ModelAndView("orderLogged","products",HibernateClass.getAllProducts());
-    }
     @RequestMapping("/profile")
-    public String showProfile(@ModelAttribute("globalUser")User user,Model model){
+    public String showProfile(@ModelAttribute("globalUser")User user,Model model,@ModelAttribute("registerTest")UserRegistration userLogged){
+       if(!userLogged.isLogged())
+           return "notLogged";
+
         user.setCustomer(HibernateClass.getCustomerDetail(user));
         UserRegistration userRegistration = new UserRegistration();
         userRegistration.copy(user,user.getCustomer());
@@ -80,25 +101,9 @@ public class ControllerConfig {
     }
 
 
-    @RequestMapping("/aboutUsLogged")
-    public String showAboutUsPageLogged(){
-        return "aboutLogged";
-    }
-
-    @RequestMapping("/orderLogged")
-    public String showOrderPageLogged(){
-        return "order";
-    }
-
-    @RequestMapping("/homeLogged")
-    public String mainPageLogged(@ModelAttribute("globalUser")User user,Model model){
-        model.addAttribute("userLogged",user);
-        return "homeLogged";
-    }
-
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
     public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
-    User user,BindingResult bindingResult,ModelAndView modelAndView,@ModelAttribute("globalUser") User globalUser,  Model model){
+    User user,BindingResult bindingResult,ModelAndView modelAndView,@ModelAttribute("globalUser") User globalUser,  Model model,@ModelAttribute("registerTest")UserRegistration userRegistration){
         if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
             user.setPassword("");
             return new ModelAndView("login","invalid","Invalid username or/and password");
@@ -107,6 +112,9 @@ public class ControllerConfig {
             globalUser.setPassword(user.getPassword());
             globalUser.setUsername(user.getUsername());
             model.addAttribute("User",globalUser);
+
+            userRegistration.setLogged(true);
+            System.out.println(userRegistration.isLogged());
             return new ModelAndView("homeLogged");
         }
     }
@@ -130,13 +138,16 @@ public class ControllerConfig {
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logout(){
+    public String logout(@ModelAttribute("registerTest")UserRegistration infoUser){
+        infoUser.setLogged(false);
         return "home";
     }
 
     @RequestMapping(value="updateProfile",method = RequestMethod.POST)
     public ModelAndView updateProfile(@ModelAttribute("infoUser")UserRegistration infoUser,@ModelAttribute("globalUser")User globalUser,Model model){
 
+        if(!infoUser.isLogged())
+            return new ModelAndView("home");
         if(!HibernateClass.updateProfile(infoUser))
         {
             return new ModelAndView("profile", "error", "You have some mistakes in your profile information.");
