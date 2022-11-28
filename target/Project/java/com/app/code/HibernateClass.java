@@ -179,7 +179,6 @@ public class HibernateClass {
                 Product product = (Product) query.getSingleResult();
 
                 Order order = new Order();
-                System.out.println("Heeere"+user);
                 user = (User) session.createQuery("FROM User WHERE username=?0").setParameter(0,user.getUsername()).getSingleResult();
                 user.getCustomer().setOrders(user.getCustomer().getOrders()+1);
 
