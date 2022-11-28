@@ -44,7 +44,6 @@ public class ControllerConfig {
 
     @RequestMapping("/home")
     public String showMainPage2(@ModelAttribute("globalUser")User user,Model model, @ModelAttribute("registerTest")UserRegistration userLogged){
-        System.out.println(userLogged.isLogged());
         if(userLogged.isLogged()) {
             model.addAttribute("userLogged",user);
             return "homeLogged";
@@ -95,11 +94,31 @@ public class ControllerConfig {
 
         user.setCustomer(HibernateClass.getCustomerDetail(user));
         UserRegistration userRegistration = new UserRegistration();
+        userRegistration.setLogged(true);
         userRegistration.copy(user,user.getCustomer());
+        System.out.println("Profile "+userLogged);
+
         model.addAttribute("infoUser",userRegistration);
+        System.out.println("---------------------------- "+user);
         return "profile";
     }
 
+    @RequestMapping(value="updateProfile",method = RequestMethod.POST)
+    public ModelAndView updateProfile(@ModelAttribute("infoUser")UserRegistration infoUser,@ModelAttribute("globalUser")User globalUser,Model model){
+
+        System.out.println("Update Profile11111111111 "+globalUser);
+        System.out.println("Update Profile22222222222 "+infoUser);
+        if(!infoUser.isLogged())
+            return new ModelAndView("home");
+        if(!HibernateClass.updateProfile(infoUser))
+        {
+            return new ModelAndView("profile", "error", "You have some mistakes in your profile information.");
+        }
+        else{
+            model.addAttribute("infoUser", infoUser);
+            return new ModelAndView("profile");
+        }
+    }
 
     @RequestMapping(value="/loginCheck",method= RequestMethod.POST)
     public ModelAndView showLogged(@Valid @ModelAttribute("userTest")
@@ -114,7 +133,7 @@ public class ControllerConfig {
             model.addAttribute("User",globalUser);
 
             userRegistration.setLogged(true);
-            System.out.println(userRegistration.isLogged());
+
             return new ModelAndView("homeLogged");
         }
     }
@@ -143,20 +162,6 @@ public class ControllerConfig {
         return "home";
     }
 
-    @RequestMapping(value="updateProfile",method = RequestMethod.POST)
-    public ModelAndView updateProfile(@ModelAttribute("infoUser")UserRegistration infoUser,@ModelAttribute("globalUser")User globalUser,Model model){
-
-        if(!infoUser.isLogged())
-            return new ModelAndView("home");
-        if(!HibernateClass.updateProfile(infoUser))
-        {
-            return new ModelAndView("profile", "error", "You have some mistakes in your profile information.");
-        }
-        else{
-            model.addAttribute("infoUser", infoUser);
-            return new ModelAndView("profile");
-        }
-    }
 
     @RequestMapping("/validateOrder")
     public String validateOrder(@ModelAttribute("globalUser")User user,@ModelAttribute("list")doCommand list, Model model){

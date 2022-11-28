@@ -24,7 +24,7 @@
 <nav class>
     <div class="buttons">
         <a href="home">Home</a>
-        <a href="aboutUs">About Us</a>
+        <a href="about">About Us</a>
         <a href="order">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
         <a href="login">Log in</a>
         <a href=""><img src="<c:url value="/resources/Images/facebook.png"/>" class="facebook" alt="Img"/></a>

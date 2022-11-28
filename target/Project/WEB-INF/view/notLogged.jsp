@@ -22,7 +22,7 @@
 <nav class>
   <div class="buttons">
     <a href="home">Home</a>
-    <a href="aboutUs">About Us</a>
+    <a href="about">About Us</a>
     <a href="order">Order</a><img src="<c:url value="/resources/Images/buy.png"/>" class="icon" alt="Img"/>
     <a href="login">Log in</a>
     <a href=""><img src="<c:url value="/resources/Images/facebook.png"/>" class="facebook" alt="Img"/></a>
@@ -45,7 +45,7 @@
     <div class="aboutUs">
       <p class="welcome">Can't do this order<br></p>
       <hr>
-      <p>We are sorry, but you can't do an order if you're not logged.</p>
+      <p>We are sorry, but you can't do this action if you're not logged.</p>
       <p>You can log-in <b><a href="login">here,</a></b></p>
       <p>or if you don't have an account, you can create one <b><a href="register">here.</a></b></p>
       <br></br>

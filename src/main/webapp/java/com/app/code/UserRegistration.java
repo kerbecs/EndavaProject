@@ -9,6 +9,7 @@ public class UserRegistration {
 
     @Size(min = 5,message = "At least 5 char required")
     private String username;
+
     private String password;
 
     @Size(min = 6,message = "At least 6 char required")
@@ -33,7 +34,7 @@ public class UserRegistration {
     @Size(min = 2,max = 20,message = "Enter a valid address")
     private String address;
 
-    @Size(min = 2,message = "At least 2 char required")
+    @Size(min = 2,max=20,message = "At least 2 char required")
     private String job;
     private int orders;
 

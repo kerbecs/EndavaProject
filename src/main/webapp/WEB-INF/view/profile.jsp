@@ -60,7 +60,7 @@
                 <p class="info">Address <span class="personal"><form:input type="text" class="personalInfo" path="address"/></span></p>
                 <p class="info">Job <span class="personal"><form:input type="text" class="personalInfo" path="job"/></span></p>
                 <p class="info">Orders <span class="personal"><form:input type="text" class="personalInfo" path="orders" disabled="true"/></span></p>
-                <p class="info">New Password <span class="personal"><form:password class="personalInfo" path="password"/></span></p>
+                <p class="info">New Password <span class="personal"><form:password class="personalInfo" path="password" value="${infoUser.password}"/></span></p>
                 <input type="submit" value="Submit" style="    position: relative;right: 20%;font-size: 18px;font-weight: bold;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;background-color: #ECBF07;cursor:pointer;"/>
                 </form:form>
                 <br><br>
