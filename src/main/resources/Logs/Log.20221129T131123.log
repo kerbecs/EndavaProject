@@ -1,0 +1,36 @@
+[2022-11-29 13:11:24] - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+[2022-11-29 13:11:24] - HV000001: Hibernate Validator 6.0.21.Final
+[2022-11-29 13:11:24] - Found javax.persistence.Persistence on classpath containing 'getPersistenceUtil'. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+[2022-11-29 13:11:24] - Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+[2022-11-29 13:11:24] - Loaded expression factory via original TCCL
+[2022-11-29 13:11:24] - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+[2022-11-29 13:11:24] - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+[2022-11-29 13:11:24] - Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+[2022-11-29 13:11:24] - Trying to load META-INF/validation.xml for XML based Validator configuration.
+[2022-11-29 13:11:24] - Trying to load META-INF/validation.xml via user class loader
+[2022-11-29 13:11:24] - Trying to load META-INF/validation.xml via TCCL
+[2022-11-29 13:11:24] - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+[2022-11-29 13:11:24] - No META-INF/validation.xml found. Using annotation based configuration only.
+[2022-11-29 13:11:24] - HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+[2022-11-29 13:11:24] - HV000234: Using org.hibernate.validator.internal.engine.resolver.JPATraversableResolver as ValidatorFactory-scoped traversable resolver.
+[2022-11-29 13:11:24] - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+[2022-11-29 13:11:24] - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+[2022-11-29 13:11:24] - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+[2022-11-29 13:11:25] - Found javax.persistence.Persistence on classpath containing 'getPersistenceUtil'. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+[2022-11-29 13:11:25] - Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+[2022-11-29 13:11:25] - Loaded expression factory via original TCCL
+[2022-11-29 13:11:25] - Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+[2022-11-29 13:11:25] - Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+[2022-11-29 13:11:25] - Setting custom ParameterNameProvider of type org.springframework.validation.beanvalidation.LocalValidatorFactoryBean$1
+[2022-11-29 13:11:25] - Trying to load META-INF/validation.xml for XML based Validator configuration.
+[2022-11-29 13:11:25] - Trying to load META-INF/validation.xml via user class loader
+[2022-11-29 13:11:25] - Trying to load META-INF/validation.xml via TCCL
+[2022-11-29 13:11:25] - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+[2022-11-29 13:11:25] - No META-INF/validation.xml found. Using annotation based configuration only.
+[2022-11-29 13:11:25] - HV000234: Using org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator as ValidatorFactory-scoped message interpolator.
+[2022-11-29 13:11:25] - HV000234: Using org.hibernate.validator.internal.engine.resolver.JPATraversableResolver as ValidatorFactory-scoped traversable resolver.
+[2022-11-29 13:11:25] - HV000234: Using org.hibernate.validator.internal.util.ExecutableParameterNameProvider as ValidatorFactory-scoped parameter name provider.
+[2022-11-29 13:11:25] - HV000234: Using org.hibernate.validator.internal.engine.DefaultClockProvider as ValidatorFactory-scoped clock provider.
+[2022-11-29 13:11:25] - HV000234: Using org.hibernate.validator.internal.engine.scripting.DefaultScriptEvaluatorFactory as ValidatorFactory-scoped script evaluator factory.
+[2022-11-29 13:11:30] - Error creating bean with name 'doANewCommand' defined in com.app.code.appContext: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.app.code.doCommand]: Illegal arguments to factory method 'doANewCommand'; args: doANewCommand; nested exception is java.lang.IllegalArgumentException: wrong number of arguments: 1 expected: 0
+[2022-11-29 13:11:36] - Error creating bean with name 'doANewCommand' defined in com.app.code.appContext: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.app.code.doCommand]: Illegal arguments to factory method 'doANewCommand'; args: doANewCommand; nested exception is java.lang.IllegalArgumentException: wrong number of arguments: 1 expected: 0

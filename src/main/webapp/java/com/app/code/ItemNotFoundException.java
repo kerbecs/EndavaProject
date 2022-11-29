@@ -1,8 +1,12 @@
 package com.app.code;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 public class ItemNotFoundException extends RuntimeException{
+    private static final Logger logger = LoggerFactory.getLogger(ItemNotFoundException.class);
+
     private HttpStatus httpStatus;
     public ItemNotFoundException() {
     }
@@ -10,6 +14,7 @@ public class ItemNotFoundException extends RuntimeException{
     public ItemNotFoundException(String message,HttpStatus httpStatus) {
         super(message);
         this.httpStatus = httpStatus;
+        logger.info(message);
     }
 
     public ItemNotFoundException(String message, Throwable cause) {

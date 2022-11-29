@@ -1,5 +1,7 @@
 package com.app.code;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 
@@ -19,7 +20,8 @@ import javax.validation.Valid;
 @Validated
 @SessionAttributes(value = {"globalUser","infoUser","registerTest"})
 public class ControllerConfig {
-    AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext(appContext.class);
+    private AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext(appContext.class);
+    private final Logger logger = LoggerFactory.getLogger(ControllerConfig.class);
 
     @ModelAttribute("globalUser")
     public User globalUser(){
@@ -56,8 +58,9 @@ public class ControllerConfig {
             model.addAttribute("userTest", user);
             return "login";
         }
-        else
+        else {
             return "home";
+        }
     }
 
     @RequestMapping("/register")
@@ -80,7 +83,7 @@ public class ControllerConfig {
 
     @RequestMapping(value="/order",method = RequestMethod.GET)
     public ModelAndView showOrderLoggedPage(@ModelAttribute("globalUser")User user,Model model,@ModelAttribute("registerTest")UserRegistration userLogged){
-        model.addAttribute("list",new doCommand());
+        model.addAttribute("list",config.getBean("doANewCommand",doCommand.class));
         if(userLogged.isLogged()) {
             model.addAttribute("infoUser", user);
             return new ModelAndView("orderLogged", "products", HibernateClass.getAllProducts());
@@ -93,29 +96,27 @@ public class ControllerConfig {
            return "notLogged";
 
         user.setCustomer(HibernateClass.getCustomerDetail(user));
-        UserRegistration userRegistration = new UserRegistration();
+        UserRegistration userRegistration = config.getBean("userRegistration",UserRegistration.class);
         userRegistration.setLogged(true);
         userRegistration.copy(user,user.getCustomer());
-        System.out.println("Profile "+userLogged);
 
         model.addAttribute("infoUser",userRegistration);
-        System.out.println("---------------------------- "+user);
         return "profile";
     }
 
     @RequestMapping(value="updateProfile",method = RequestMethod.POST)
     public ModelAndView updateProfile(@ModelAttribute("infoUser")UserRegistration infoUser,@ModelAttribute("globalUser")User globalUser,Model model){
 
-        System.out.println("Update Profile11111111111 "+globalUser);
-        System.out.println("Update Profile22222222222 "+infoUser);
         if(!infoUser.isLogged())
             return new ModelAndView("home");
         if(!HibernateClass.updateProfile(infoUser))
         {
+            logger.debug("Can't modify profile of user "+globalUser.getUsername());
             return new ModelAndView("profile", "error", "You have some mistakes in your profile information.");
         }
         else{
             model.addAttribute("infoUser", infoUser);
+            logger.debug("User profile for user "+globalUser.getUsername()+" was successfully edited.");
             return new ModelAndView("profile");
         }
     }
@@ -125,6 +126,7 @@ public class ControllerConfig {
     User user,BindingResult bindingResult,ModelAndView modelAndView,@ModelAttribute("globalUser") User globalUser,  Model model,@ModelAttribute("registerTest")UserRegistration userRegistration){
         if(bindingResult.hasErrors() || !HibernateClass.searchUser(user)){
             user.setPassword("");
+            logger.debug("Fail Logging. Invalid user or password for username "+user.getUsername());
             return new ModelAndView("login","invalid","Invalid username or/and password");
         }
         else {
@@ -133,6 +135,7 @@ public class ControllerConfig {
             model.addAttribute("User",globalUser);
 
             userRegistration.setLogged(true);
+            logger.debug("User "+user.getUsername()+" was successfully logged.");
 
             return new ModelAndView("homeLogged");
         }
@@ -140,18 +143,21 @@ public class ControllerConfig {
     @RequestMapping(value = "/registeredCheck", method = RequestMethod.POST)
     public ModelAndView showRegistered(@Valid @ModelAttribute("registerTest")UserRegistration user,BindingResult bindingResult,@ModelAttribute("globalUser")User globalUser, Model model){
         if(bindingResult.hasErrors()){
+            logger.debug("Registration failed.");
             return new ModelAndView("register");
         }
         else if(!user.checkPassword()){
             return new ModelAndView("register","pass","The passwords doesn't match");
         }
         else if(HibernateClass.verifyUsernameExist(user)){
+            logger.debug("A user with username "+user.getUsername()+" already exists.");
             return new ModelAndView("register","busy","This username is taken.");
         }
         else{
             UserRegistration.createUser(user);
             globalUser.setPassword(user.getPassword1());
             globalUser.setUsername(user.getUsername());
+            logger.debug("User with username "+user.getUsername()+" was successfully registered.");
             return new ModelAndView("registered");
         }
     }
@@ -159,6 +165,7 @@ public class ControllerConfig {
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logout(@ModelAttribute("registerTest")UserRegistration infoUser){
         infoUser.setLogged(false);
+        logger.debug("User "+infoUser.getUsername()+" was successfully disconnected.");
         return "home";
     }
 
@@ -166,6 +173,7 @@ public class ControllerConfig {
     @RequestMapping("/validateOrder")
     public String validateOrder(@ModelAttribute("globalUser")User user,@ModelAttribute("list")doCommand list, Model model){
         HibernateClass.addCommand(list,user);
+        logger.debug("User "+user.getUsername()+" successfully made an order");
         return "thx";
     }
     @RequestMapping("/notLogged")

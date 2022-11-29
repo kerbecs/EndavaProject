@@ -15,6 +15,7 @@
 <head>
     <title>Gustoso</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/CSS/styles.css"/>">
 </head>
 <body>
@@ -47,14 +48,14 @@
             <form:form modelAttribute="list" action="validateOrder">
             <c:forEach var="var" items="${products}">
             <p class="product">
-                <span class="img"><img src="<c:url value="/resources/Images/pizza.jpg"/> " alt="Img"/></span>
+                <span class="img"><img src="<c:url value="/resources/Images/${var.productId}.jpg"/> " alt="Img"/></span>
                 <span class="description">
                     <b style="font-size: 20px;">${var.title}</b>
                     <br>
                     <br>
                     <b>Ingredients: </b>${var.ingredients}
                     <br><br><b>Weight: </b>${var.weight}gr
-                    <br><b style="font-size: 16px;color:goldenrod;">Price: </b>${var.price} Euros
+                    <br><b style="font-size: 16px;color:goldenrod;">Price: </b>${var.price} $
                 </span>
                 <span class="addButton">
                     <b>Add to list</b>

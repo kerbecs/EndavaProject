@@ -26,9 +26,11 @@ public class Customer {
     @Column(name="email")
     private String email;
 
+    @Size(min = 2,max = 20,message = "Enter a location between 2 and 20")
     @Column(name = "location")
     private String location;
 
+    @Size(min = 2,max = 20,message = "Enter an address between 2 and 20")
     @Column(name="address")
     private String address;
 
