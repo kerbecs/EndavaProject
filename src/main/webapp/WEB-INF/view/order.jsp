@@ -46,14 +46,14 @@
             <form:form modelAttribute="products" action="notLogged">
                 <c:forEach var="var" items="${products}">
                     <p class="product">
-                        <span class="img"><img src="<c:url value="/resources/Images/pizza.jpg"/> " alt="Img"/></span>
+                        <span class="img"><img src="<c:url value="/resources/Images/${var.productId}.jpg"/> " alt="Img"/></span>
                         <span class="description">
                     <b style="font-size: 20px;">${var.title}</b>
                     <br>
                     <br>
                     <b>Ingredients: </b>${var.ingredients}
                     <br><br><b>Weight: </b>${var.weight}gr
-                    <br><b style="font-size: 16px">Price: </b>${var.price}
+                    <br><b style="font-size: 16px">Price: </b>${var.price}$
                 </span>
                         <span class="addButton">
                     <b>Add to list</b>
